@@ -1,0 +1,181 @@
+First of all in our App.js we gotta add our code
+
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import ListScreen from './src/ListScreen';
+
+const Stack = createStackNavigator();
+
+const App = () => {
+  return (
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="List">
+          <Stack.Screen name="List" component={ListScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+  );
+};
+
+export default App;
+
+this is basically how we configure our App.js and the initial Route we set it as List
+
+
+
+
+<----- FlatsList ------>
+
+FlatList shows us how we can create list in our native app
+FlatList accept two props one is data and the other one is renderItem which is a function
+
+here is an example of a flatlist
+
+///
+import React from "react";
+import { StyleSheet, Text, View, FlatList } from 'react-native';
+
+
+const ListScreen = () =>{
+    const friends = [
+        {name:'Friend #1'},
+        {name:'Friend #2'},
+        {name:'Friend #3'},
+        {name:'Friend #4'},
+        {name:'Friend #5'},
+        {name:'Friend #6'},
+        {name:'Friend #7'},
+        {name:'Friend #8'},
+        {name:'Friend #9'},
+    ]
+
+    return (
+        <FlatList
+            keyExtractor={friend => friend.name}
+            data={friends}
+            renderItem={({item})=>{
+                return <Text style={styles.textStyle}>{item.name}</Text>
+            }}/>
+    )
+}
+
+const styles = StyleSheet.create({
+    textStyle:{
+        marginVertical:50,
+    }
+})
+
+export default ListScreen
+
+
+
+<------- Button -------->
+
+In react native it's a bit different making a button and therenis two different ways someone can make a button
+
+1.Button -> Very simple component for showing a button and detecting a press
+2. TouchableOpacity -> Highly customizable component that can detect a press on just about any kind of element
+
+<- Button ->
+
+This normal button is not that customizable but you can check if someone has pressed it.
+It accepts two props one is called title and the other one on press
+To  make use of navigation inside our button element we use props and destructure navigation from props
+
+const HomeScreen = (navigation) =>{
+
+
+    return(
+        <View>
+        <Text style={styles.textStyle}>Home screen</Text>
+            <Button
+                title='Go to Components Demo'
+                onPress={()=>navigation.navigate('Components')}  // we are getting the 'Components' from our App.js
+            />
+        </View>
+    )
+}
+
+
+<- TouchableOpacity ->
+
+This is another way of making a button and it's highly customizable you can add anything inside the element be it a text or image or whatever you wanna put inside.
+To  make use of navigation inside our TouchableOpacity element we use props and destructure navigation from props
+
+ const HomeScreen = (navigation) =>{
+
+     return(
+         <View>
+         <Text style={styles.textStyle}>Home screen</Text>
+             <TouchableOpacity onPress={()=>navigation.navigate('List')}>
+                 <Text>Go to list</Text>
+             </TouchableOpacity>
+         </View>
+     )
+ }
+
+
+
+<------ Images ---->
+
+Add an image inside our component there should be two Components one inside the src that is the main and pass 3 reusable componenets which the title should be mountain, forest and beach and add 3 images beside that give the images a height and width of 200 each.
+
+
+
+
+
+
+
+answer:
+
+1.)first we'll create a component inside our src called image screen and another one inside our components folder called image details
+
+2.)inside our main components pass the 3 reusable components with the path to images inside require
+
+import React from "react";
+import { View} from 'react-native';
+import ImageDetail from "./components/imageDetail";
+
+
+const ImageScreen = () =>{
+
+    return(
+        <View>
+            <ImageDetail title='Forest' imageSource={require('../assets/forest.jpg')}/>
+            <ImageDetail title='Beach' imageSource={require('../assets/beach.jpg')}/>
+            <ImageDetail title='Mountain' imageSource={require('../assets/mountain.jpg')}/>
+        </View>
+    )
+}
+
+export default ImageScreen
+
+
+3.)In our reusable components we'll pass the props of title and the image and instead of the image having src it will have source cause that's the standard way of react-native
+
+
+import React from "react";
+import { StyleSheet, Text, View,Image} from 'react-native';
+
+
+const ImageDetail = (props) =>{
+
+    return(
+        <View>
+            <Image style={styles.imageStyle} source={props.imageSource}/>
+            <Text>{props.title}</Text>
+        </View>
+    )
+}
+
+const styles = StyleSheet.create({
+     imageStyle:{
+         height:200,
+         width:200
+     }
+})
+
+export default ImageDetail
+
+
+
